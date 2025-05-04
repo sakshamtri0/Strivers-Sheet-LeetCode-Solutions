@@ -1,0 +1,43 @@
+class Solution {
+    public int minDays(int[] bloomDay, int m, int k) {
+        if(bloomDay.length < (long) m * k) return -1;
+
+        int min = Integer.MAX_VALUE, max = 0;
+        for(int bloom : bloomDay){
+            if(bloom > max) max = bloom;
+            if(bloom < min) min = bloom;
+        }
+
+        while(min < max){
+            int mid = min + (max - min) / 2;
+
+            if(checkBouquets(bloomDay, m, k, mid)) max = mid;
+            else min = mid + 1;
+        }
+
+        return min;
+    }
+
+    public boolean checkBouquets(int[] bloomDay, int m, int k, int days){
+        int cnt = 0, noOfBoquets = 0, n = bloomDay.length;
+
+        for(int i = 0; i<n; i++){
+            if(bloomDay[i] <= days){
+                cnt++;
+                if(cnt == k){
+                    cnt = 0;
+                    noOfBoquets += 1;
+                    if(noOfBoquets == m)
+                        return true;
+                }
+            }
+            else{
+                cnt = 0;
+                if(n - i < (m - noOfBoquets) * k)
+                    return false;
+            }
+        }
+
+        return false;
+    }
+}
