@@ -1,0 +1,36 @@
+class Solution {
+    static {
+        for (int i = 0; i < 300; i++) shipWithinDays(new int[0],1);
+    }
+     public static int shipWithinDays(int[] weights, int days) {
+        int total = 0;
+        int heaviest = 0;
+        for (int weight : weights) {
+            total += weight;
+            heaviest = Math.max(heaviest,weight);
+        }
+        int left = Math.max(heaviest, total/days);
+        int right = heaviest * (int) Math.ceil((double)weights.length/days);
+        while (left < right) {
+            int mid = left + (right-left) / 2;
+            int daysNeeded = totalDay(weights,mid);
+            if (daysNeeded <= days) {
+                right = mid;
+            } else {
+                left = mid+1;
+            }
+        }
+        return left;
+    }
+    private static int totalDay(int[] weights, int capacity) {
+        int days = 1, loaded = capacity;
+        for (int i = 0, n = weights.length; i < n; i++) {
+            if (loaded < weights[i]) {
+                days++;
+                loaded = capacity;
+            }
+            loaded -= weights[i];
+        }
+        return days;
+    }
+}
