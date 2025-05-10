@@ -1,0 +1,34 @@
+class Solution {
+    public int beautySum(String s) {
+        final int TOTAL_LETTERS = 26;
+        final int STRING_LENGTH = s.length();
+        final char[] CHARACTERS = s.toCharArray();
+        
+        int[] frequency = new int[TOTAL_LETTERS];
+        int[] frequencyHistogram = new int[STRING_LENGTH + 1];
+        
+        int totalBeautySum = 0;
+        
+        for (int start = 0; start < STRING_LENGTH; start++) {
+            int minFrequency = 0, maxFrequency = 0;
+            Arrays.fill(frequency, 0);
+            
+            for (int end = start; end < STRING_LENGTH; end++) {
+                char currentChar = CHARACTERS[end];
+                int currentFrequency = ++frequency[currentChar - 'a'];
+                
+                if (currentFrequency > maxFrequency) {
+                    frequencyHistogram[maxFrequency = currentFrequency] = 0;
+                }
+                ++frequencyHistogram[currentFrequency];
+                
+                if (currentFrequency == 1 || (--frequencyHistogram[currentFrequency - 1] == 0 && currentFrequency - 1 == minFrequency)) {
+                    minFrequency = currentFrequency;
+                }
+                
+                totalBeautySum += (maxFrequency - minFrequency);
+            }
+        }
+        return totalBeautySum;
+    }
+} 
