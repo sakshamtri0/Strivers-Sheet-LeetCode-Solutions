@@ -1,0 +1,35 @@
+class Solution {
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        return new java.util.AbstractList<>(){
+            List<List<Integer>> res  = null;
+            private void build(){
+                if(res!=null) return;
+                res = new ArrayList<>();
+                dfs(candidates, target,0, new ArrayList<>());
+            }
+            @Override 
+            public List<Integer> get(int i){
+                build();
+                return res.get(i);
+            }
+            @Override
+            public int size(){
+                build();
+                return res.size();
+            }
+            private void dfs(int[] nums, int tar, int idx, List<Integer> t){
+                if(tar==0){
+                    res.add(new ArrayList<>(t));
+                    return;
+                }
+                for(int i=idx;i<nums.length;i++){
+                    if(tar-nums[i]>=0){
+                        t.add(nums[i]);
+                        dfs(nums, tar-nums[i], i, t);
+                        t.remove(t.size()-1);
+                    }
+                }
+            }
+        };
+    }
+}
