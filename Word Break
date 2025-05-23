@@ -1,0 +1,21 @@
+class Solution {
+    private Boolean[] dp;
+    public boolean wordBreak(String s, List<String> wordDict) {
+        dp = new Boolean[s.length() + 1];
+        return wordBreak(s, wordDict, 0);
+    }
+
+    private boolean wordBreak(String s, List<String> wordDict, int index) {
+        if (index == s.length()) return true;
+        if (dp[index] != null) return dp[index]; 
+        for (String word : wordDict) {
+            if (s.startsWith(word, index)) {
+                if (wordBreak(s, wordDict, index + word.length())) {
+                    return true;
+                }
+                dp[index + word.length()] = false;
+            }
+        }
+        return false;
+    }
+}
