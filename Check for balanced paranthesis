@@ -1,0 +1,29 @@
+class Solution {
+    public boolean isValid(String s) {
+        char ch[]=new char[s.length()];
+        int idx=-1;
+        for(char c:s.toCharArray())
+        {
+            if(c=='('||c=='{'||c=='[')
+            {
+                ch[++idx]=c;
+            }
+            else
+            {
+                if(idx<0)
+                {
+                    return false;
+                }
+                else if(c==')' && ch[idx]!='(' || c=='}' && ch[idx]!='{' || c==']' && ch[idx]!='[')
+                {
+                    return false;
+                }
+                else
+                {
+                    idx--;
+                }
+            }
+        }
+        return idx==-1;
+    }
+}
