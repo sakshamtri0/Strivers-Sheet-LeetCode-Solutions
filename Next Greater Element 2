@@ -1,0 +1,23 @@
+class Solution {
+    public int[] nextGreaterElements(int[] nums) {
+        int[] stack = new int[nums.length];
+        int[] result = new int[nums.length];
+        int stackPointer = -1;
+        for (int i = nums.length - 1; i >= 0; i--) {
+            while (stackPointer != -1 && stack[stackPointer]<=nums[i]){
+                stackPointer--;
+            }
+            stack[++stackPointer] = nums[i];
+        }
+
+        for (int i = nums.length - 1; i >= 0; i--) {
+            while (stackPointer != -1 && stack[stackPointer]<=nums[i]){
+                stackPointer--;
+            }
+            result[i] = stackPointer == -1 ? -1 : stack[stackPointer];
+            stack[++stackPointer] = nums[i];
+        }
+        
+        return result;
+    }
+}
