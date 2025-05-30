@@ -1,0 +1,31 @@
+class Solution {
+    public int[] asteroidCollision(int[] asteroids) {
+        var result = new int[asteroids.length];
+        var j = 0;
+        for (var i = 0; i < asteroids.length; i++) {
+            if (asteroids[i] > 0 || j == 0) {
+                result[j++] = asteroids[i];
+                continue;
+            }
+            while (true) {
+                var prev_asteroid = result[j - 1];
+                if (prev_asteroid < 0) {
+                    result[j++] = asteroids[i];
+                    break;
+                } else if (Math.abs(asteroids[i]) < prev_asteroid) {
+                    break;
+                } else if (Math.abs(asteroids[i]) == prev_asteroid) {
+                    j--;
+                    break;
+                } else {
+                    j--;
+                    if (j == 0) {
+                        result[j++] = asteroids[i];
+                        break;
+                    }
+                }
+            }
+        }
+        return Arrays.copyOfRange(result, 0, j);
+    }
+}
