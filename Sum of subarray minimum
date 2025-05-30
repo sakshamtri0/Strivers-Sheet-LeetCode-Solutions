@@ -1,0 +1,62 @@
+class Solution {
+    static
+    {
+        for( int i = 0; i < 500; i++ )
+            sumSubarrayMins(new int[]{});
+    }
+    private static int[] findPSEs(int[] arr)
+    {
+        int[] res = new int[arr.length];
+        int[] stack = new int[arr.length];
+        int top = -1;
+        for( int i = arr.length-1; i >= 0; i-- )
+        {
+            while( top > -1 && arr[i] < arr[stack[top]] )
+                res[stack[top--]] = i;
+            
+            res[i] = -1;
+            stack[++top] = i;
+        }
+        return res;
+    }
+    private static int[] findNSEs(int[] arr)
+    {
+        int[] res = new int[arr.length];
+        int[] stack = new int[arr.length];
+        int top = -1;
+        for( int i = 0; i < arr.length; i++ )
+        {
+            while( top > -1 && arr[i] <= arr[stack[top]] )
+                res[stack[top--]] = i;
+            
+            res[i] = arr.length;
+            stack[++top] = i;
+        }
+        return res;
+    }
+    public static int sumSubarrayMins(int[] arr) {
+        int mod = (int)(1e9 + 7);
+        long sum = 0;
+        int[] stack = new int[arr.length];
+        int top = -1;
+        for( int i = 0; i < arr.length; i++ )
+        {
+            while( top > -1 && arr[i] < arr[stack[top]] )
+            {
+                int NSE = i;
+                int element = stack[top--];
+                int PSE = top > -1 ? stack[top] : -1;
+                sum = (sum + (1L * (element - PSE) * (NSE - element) * arr[element])%mod)%mod;
+            }
+            stack[++top] = i;
+        }
+        int NSE = arr.length;
+        while( top > -1 )
+        {
+            int element = stack[top--];
+            int PSE = top > -1 ? stack[top] : -1;
+            sum = (sum + (1L * (element - PSE) * (NSE - element) * arr[element])%mod)%mod;
+        }
+        return (int)sum;
+    }
+}
