@@ -1,0 +1,54 @@
+class Solution {
+    public int[] maxSlidingWindow(int[] nums, int k) {
+     int[] res=new int[nums.length-k+1];
+        int max=Integer.MIN_VALUE,maxp=0,end=0;
+        for(int i=0;i<k;i++)
+        {
+            if(nums[i]>=max)
+            {
+                max=nums[i];
+                maxp=i;
+            }
+        }
+        res[0]=max;
+        for(int i=1;i<res.length;i++)
+        {
+            end=i+k-1;
+            if(i<=maxp)
+            {
+                if(nums[end]>=max)
+                {
+                    max=nums[end];
+                    maxp=end;
+                }
+            }
+            else
+            {
+                if(nums[end]>=max-1)
+                {
+                    max=nums[end];
+                    maxp=end;
+                }
+                else if(nums[i]>=max-1)
+                {
+                    max=nums[i];
+                    maxp=i;
+                }
+                else
+                {
+                    max=Integer.MIN_VALUE;
+                    for(int j=i;j<end+1;j++)
+                    {
+                        if(nums[j]>=max)
+                        {
+                            max=nums[j];
+                            maxp=j;
+                        }
+                    }
+                }
+            }
+            res[i]=max;
+        }
+        return res;
+    }
+}
