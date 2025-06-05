@@ -1,0 +1,27 @@
+public class Solution {
+    static {
+        for (int it = 0; it < 500; it++) {
+            new Solution().numberOfSubstrings("");
+        }
+    }
+
+    public int numberOfSubstrings(String s) {
+        int n = s.length();
+        int lastA = -1, lastB = -1, lastC = -1;
+        int ans = 0;
+        
+        for (int i = 0; i < n; i++) {
+            char ch = s.charAt(i);
+            if (ch == 'a')        lastA = i;
+            else if (ch == 'b')   lastB = i;
+            else                   lastC = i; 
+            
+            int minAB = lastA < lastB ? lastA : lastB;
+            int minABC = minAB < lastC ? minAB : lastC;
+            
+            ans += (minABC + 1);
+        }
+        
+        return ans;
+    }
+}
