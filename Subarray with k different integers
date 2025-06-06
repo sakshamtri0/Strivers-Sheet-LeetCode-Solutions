@@ -1,0 +1,81 @@
+class Solution {
+    static {
+        for(int i = 0; i < 500; ++i)
+            subarraysWithKDistinct(new int[0], 1);
+    }
+
+    public static int subarraysWithLessThanEqualToKDistinct(
+        int[] nums, int k
+    ){
+        if(k == 0) return 0;
+        int len = nums.length;
+        int count = 0;
+        Map<Integer, Integer> map = new HashMap<>();
+
+        for(int left = 0, right = 0; right < len; right++){
+            map.put(nums[right], 
+            map.getOrDefault(nums[right], 0) + 1);
+            while(map.size() > k){
+                int occurence = map.get(nums[left]);
+                if(occurence == 1){
+                    map.remove(nums[left]);
+                }else{
+                    map.put(nums[left], occurence - 1);
+                }
+                left++;
+            } 
+            count += right - left + 1;
+        }
+        return count;
+    }
+
+
+    public static int subarraysWithLessThanEqualToKDistinct2(
+        int[] nums, int k
+    ){
+        if(k == 0) return 0;
+        int len = nums.length;
+        int count = 0;
+        int map[] = new int[len + 1];
+        int size = 0;
+
+        for(int left = 0, right = 0; right < len; right++){
+            if(0 == map[nums[right]]++) ++size;
+            while(size > k){
+                if(0 == --map[nums[left]]) --size;
+                ++left;
+            } 
+            count += right - left + 1;
+        }
+        return count;
+    }
+
+    public static int subarraysWithKDistinct(int[] nums, int k) {
+        int len = nums.length;
+        int freq[] = new int[len + 1];
+        int elementCount = 0;
+        int result = 0;
+        int left = 0;
+        int mid = 0;
+
+        for(int right = 0; right < len; right++){
+            if(++freq[nums[right]] == 1) elementCount++;
+
+            while(elementCount > k){
+                if(--freq[nums[mid++]] == 0){
+                    elementCount--;
+                    left = mid;
+                }
+            }
+
+            while(freq[nums[mid]] > 1){
+                freq[nums[mid++]]--;
+            }
+
+            if(elementCount == k){
+                result += mid - left + 1;
+            }
+        }
+        return result;
+    }
+}
