@@ -1,0 +1,39 @@
+class Solution {
+    public int[][] insert(int[][] intervals, int[] newInterval) {
+        
+        int len = intervals.length;
+        int insert = len;
+        for (int i = 0; i < len; i++) {
+            if (newInterval[0] > intervals[i][1]) { continue; }
+
+            insert = i;
+            newInterval[0] = Math.min(intervals[i][0], newInterval[0]);
+            break;
+        }
+
+        int post = len;
+        for (int i = insert; i < len; i++) {
+            if (newInterval[1] > intervals[i][1]) { continue; }
+
+            post = i;
+            if (newInterval[1] >= intervals[i][0]) {
+                newInterval[1] = intervals[i][1];
+                post++;
+            }
+            break;
+        }
+
+        int offset = post - insert;
+        int[][] r = new int[len + 1 - offset][2];
+        for (int i = 0; i < insert; i ++) {
+            r[i] = intervals[i];
+        }
+        r[insert] = newInterval;
+        for (int i = post; i < len; i++) {
+            r[++insert] = intervals[i];
+        }
+
+
+        return r;
+    }
+}
