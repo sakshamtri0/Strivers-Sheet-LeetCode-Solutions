@@ -1,0 +1,17 @@
+class Solution {
+    public List<List<Integer>> levelOrder(TreeNode root) {
+        List<List<Integer>> res = new ArrayList<>();
+        addValuesRec(root, 0, res);
+        return res;
+    }
+
+    private void addValuesRec(TreeNode node, int level, List<List<Integer>> res) {
+        if(node == null) return;
+        if(res.size() < level + 1) {
+            res.add(new ArrayList<>()); //insert list for level
+        }
+        res.get(level).add(node.val);
+        addValuesRec(node.left, level + 1, res);
+        addValuesRec(node.right, level + 1, res);
+    }
+}
