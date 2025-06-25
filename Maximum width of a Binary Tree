@@ -1,0 +1,22 @@
+class Solution {
+       private int maxWidth = 1;
+    private ArrayList<Integer> leftMost = new ArrayList<>();
+    public int widthOfBinaryTree(TreeNode root) {
+        dfs(root,0,0);
+        return maxWidth;
+    }
+
+    public void dfs(TreeNode node,int depth,int position){
+        if(node==null){
+            return;
+        }
+        if(depth == leftMost.size()){
+            leftMost.add(position);
+        }else{
+            maxWidth = Math.max(maxWidth,position - leftMost.get(depth) + 1);
+        }
+        
+        dfs(node.left,depth+1,2*position);
+        dfs(node.right,depth+1,2*position+1);
+    }
+}
