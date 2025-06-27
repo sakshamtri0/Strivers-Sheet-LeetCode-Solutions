@@ -1,0 +1,26 @@
+class Solution {
+    int iIndex=0;
+    int pIndex=0;
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        return dfs(preorder,inorder,Integer.MAX_VALUE);
+    }
+
+    TreeNode dfs(int[] preorder, int[] inorder, int limit)
+    {
+        if(pIndex>=preorder.length)
+        {
+            return null;
+        }
+
+        if(limit==inorder[iIndex])
+        {
+            iIndex++;
+            return null;
+        }
+
+        TreeNode root=new TreeNode(preorder[pIndex++]);
+        root.left=dfs(preorder,inorder,root.val);
+        root.right=dfs(preorder,inorder,limit);
+        return root;
+    }
+}
