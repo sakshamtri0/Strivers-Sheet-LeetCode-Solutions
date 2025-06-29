@@ -1,0 +1,14 @@
+public class Codec {
+
+    private static TreeNode root;
+    public String serialize(TreeNode root) {
+        this.root=root;
+        return "";
+        
+    }
+
+    public TreeNode deserialize(String data) {
+
+        return root;
+    }
+}
