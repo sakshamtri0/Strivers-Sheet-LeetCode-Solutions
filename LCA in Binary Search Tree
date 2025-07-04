@@ -1,0 +1,16 @@
+class Solution {
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if (root == null) return null;
+
+        // If both p and q are greater, LCA is in right subtree
+        if (p.val > root.val && q.val > root.val)
+            return lowestCommonAncestor(root.right, p, q);
+
+        // If both p and q are smaller, LCA is in left subtree
+        if (p.val < root.val && q.val < root.val)
+            return lowestCommonAncestor(root.left, p, q);
+
+        // One of p or q equals root, or they lie on either side – this is the LCA
+        return root;
+    }
+}
