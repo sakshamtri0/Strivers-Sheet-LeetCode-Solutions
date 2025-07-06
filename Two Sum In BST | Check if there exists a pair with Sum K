@@ -1,0 +1,31 @@
+class Solution {
+    public boolean findTarget(TreeNode root, int k) {
+        return inorder(root, root, k);
+    }
+
+    public boolean inorder(TreeNode node, TreeNode root, int k) {
+        if (node == null) {
+            return false;
+        }
+
+        return inorder(node.left, root, k) ||
+               twosum(root, node, k - node.val) ||
+               inorder(node.right, root, k);
+    }
+
+    public boolean twosum(TreeNode root, TreeNode skipNode, int target) {
+        if (root == null) {
+            return false;
+        }
+
+        if (root.val == target && root != skipNode) {
+            return true;
+        }
+
+        if (target < root.val) {
+            return twosum(root.left, skipNode, target);
+        } else {
+            return twosum(root.right, skipNode, target);
+        }
+    }
+}
