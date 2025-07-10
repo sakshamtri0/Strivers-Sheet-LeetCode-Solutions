@@ -1,0 +1,45 @@
+class Solution {
+
+    static {
+        for (int i = 0; i < 500; i++) {
+            canFinish(0, new int[][]{});
+        }
+    }
+    
+    public static boolean canFinish(int numCourses, int[][] prerequisites) {
+        List<List<Integer>> graph = new ArrayList<>();
+
+        for (int i = 0; i < numCourses; i++) {
+            graph.add(new ArrayList<>());
+        }
+
+        int[] preds = new int[numCourses];
+
+        for (int[] both : prerequisites) {
+            graph.get(both[1]).add(both[0]);
+            preds[both[0]]++;
+        }
+
+        Queue<Integer> queue = new LinkedList<>();
+        for (int i = 0; i < numCourses; i++) {
+            if (preds[i] == 0) {
+                queue.add(i);
+            }
+        }
+
+        int count = 0;
+        while (!queue.isEmpty()) {
+            int num = queue.poll();
+            count += 1;
+            
+            for (Integer next : graph.get(num)) {
+                preds[next]--;
+                if (preds[next] == 0) {
+                    queue.add(next);
+                }
+            }
+        }
+
+        return count == numCourses;
+    }
+}
