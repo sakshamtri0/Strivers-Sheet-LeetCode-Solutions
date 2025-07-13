@@ -1,0 +1,32 @@
+class Solution {
+    public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
+        int[] cost = new int[n];
+        Arrays.fill(cost, Integer.MAX_VALUE);
+        cost[src] = 0;
+
+        for(int i = 0; i <= k; i++)
+            if(isBellMannFordComplete(flights, cost))
+                break;
+
+        return cost[dst] == Integer.MAX_VALUE ? -1 : cost[dst];        
+    }
+
+    private boolean isBellMannFordComplete(int[][] flights, int[] cost){
+        boolean complete = true;
+        int[] temp = cost.clone();
+        for(int[] flight : flights){
+            int u = flight[0],
+                v = flight[1],
+                price = flight[2];
+
+            if(temp[u] == Integer.MAX_VALUE)
+                continue;
+
+            if(temp[u] + price < cost[v]){
+                cost[v] = temp[u] + price;
+                complete = false;
+            }
+        }
+        return complete;
+    }
+}
