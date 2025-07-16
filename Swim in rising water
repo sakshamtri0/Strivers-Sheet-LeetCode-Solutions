@@ -1,0 +1,48 @@
+class Solution {
+    final static int[][] dirs = new int[][] { { 1, 0 }, { 0, 1 }, { -1, 0 }, { 0, -1 } };
+
+    public int swimInWater(int[][] grid) {
+        int n = grid.length;
+        int lo = Math.max(grid[0][0], grid[n - 1][n - 1]);
+        int high = n * n - 1;
+
+        int res = 0;
+        while (lo <= high) {
+            int mid = (high + lo) / 2;
+            boolean[] seen = new boolean[n * n];
+            if (possible(0, 0, mid, grid, seen)) {
+                res = mid;
+                high = mid - 1;
+            } else {
+                lo = mid + 1;
+            }
+        }
+        return res;
+    }
+
+    public boolean possible(int r, int c, int T, int[][] grid, boolean[] seen) {
+        int n = grid.length;
+        int idx = r * n + c;
+        if (seen[idx])
+            return true;
+        seen[idx] = true;
+
+        for (int i = 0; i < 4; i++) {
+            int cr = r + dirs[i][0];
+            int cc = c + dirs[i][1];
+            int newIdx = cr * n + cc;
+            if (cr >= 0 && cr < n && cc >= 0 && cc < n && !seen[newIdx] && grid[cr][cc] <= T) {
+                if (cr == n - 1 && cc == n - 1) {
+                    return true;
+                }
+                if (possible(cr, cc, T, grid, seen)) {
+                    return true;
+                }
+            }
+
+        }
+        
+
+        return false;
+    }
+}
