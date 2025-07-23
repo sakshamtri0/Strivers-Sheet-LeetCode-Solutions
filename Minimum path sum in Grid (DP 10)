@@ -1,0 +1,41 @@
+class Solution {
+
+    // Update grid diagonally starting from (i, j) to bottom-left
+    void updategrid(int[][] grid, int i , int j, int n, int m) {
+        int mini;
+
+        while (i > -1 && j > -1 && i < n && j < m) {
+            mini = Integer.MAX_VALUE;
+
+            // Check downward neighbor
+            if (i < n - 1)
+                mini = grid[i + 1][j];
+
+            // Check rightward neighbor
+            if (j < m - 1)
+                mini = Math.min(mini, grid[i][j + 1]);
+
+            // Update current cell
+            grid[i][j] += mini;
+
+            // Move to next diagonal element
+            i++;
+            j--;
+        }
+    }
+
+    public int minPathSum(int[][] grid) {
+        int n = grid.length;
+        int m = grid[0].length;
+
+        // Process diagonals from bottom-right to top-left
+        for (int i = n - 2; i >= 0; i--)
+            updategrid(grid, i, m - 1, n, m);
+
+        for (int j = m - 2; j >= 0; j--)
+            updategrid(grid, 0, j, n, m);
+
+        // Final answer is at the top-left cell
+        return grid[0][0];
+    }
+}
