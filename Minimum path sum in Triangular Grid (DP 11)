@@ -1,0 +1,23 @@
+class Solution {
+    Integer[][] dp;
+    public int minimumTotal(List<List<Integer>> triangle) {
+        dp = new Integer[triangle.size()][triangle.getLast().size()];
+        return helper(triangle, 0, 0);
+    }
+
+    int helper(List<List<Integer>> triangle, int i, int j) {
+        if (i == triangle.size() - 1) {
+            return triangle.get(i).get(j);
+        }
+
+        if (dp[i][j] != null) {
+            return dp[i][j];
+        }
+
+        int cost = triangle.get(i).get(j);
+        int down = cost + helper(triangle, i + 1, j);
+        int diagonal = cost + helper(triangle, i + 1, j + 1);
+
+        return dp[i][j] = Math.min(down, diagonal);
+    }
+}
