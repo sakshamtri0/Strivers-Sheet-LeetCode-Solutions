@@ -1,0 +1,20 @@
+class Solution {
+    public boolean canPartition(int[] nums) {
+        int sum =0;
+        for(int num : nums)
+            sum += num;
+        if(sum % 2 == 1)
+            return false;
+        sum /= 2;
+        BitSet ans = new BitSet(sum + 1);
+        ans.set(sum);
+        for(int num : nums){
+            if(num > sum)
+                continue;
+            ans.or(ans.get(num , sum+1));
+            if(ans.get(0))
+                return true;  
+        }
+        return false;
+    }
+}
