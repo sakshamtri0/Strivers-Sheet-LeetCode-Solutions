@@ -1,0 +1,31 @@
+class Solution {
+    public int minDistance(String word1, String word2) {
+        
+        int x=longestCommonSubsequence(word1, word2);
+
+        return word1.length() + word2.length() - 2 * x;
+    }
+    public int longestCommonSubsequence(String text1, String text2) {
+        
+        int n=text1.length(),m=text2.length();    
+        int[] dp=new int[m+1];
+
+         char[] t1=text1.toCharArray();
+        char[] t2=text2.toCharArray();
+        
+        for(int i=n-1;i>=0;i--){
+            int[] curr=new int[m+1];
+
+            for(int j=m-1;j>=0;j--){
+
+                if(t1[i]==t2[j])
+                    curr[j]=1+dp[j+1];
+        
+                else    curr[j]=Math.max(curr[j+1], dp[j]);
+            }
+            dp=curr;
+        }
+
+        return dp[0];
+    }
+}
