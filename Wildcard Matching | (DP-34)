@@ -1,0 +1,35 @@
+class Solution {
+    public boolean isMatch(String s, String p) {
+        int sLen = s.length(), pLen = p.length();
+        int sIdx = 0, pIdx = 0;
+        int starIdx = -1, sTmpIdx = -1;
+
+        while (sIdx < sLen) {
+            if (pIdx < pLen && (p.charAt(pIdx) == '?' || p.charAt(pIdx) == s.charAt(sIdx))) {
+                // Characters match or '?'
+                sIdx++;
+                pIdx++;
+            } else if (pIdx < pLen && p.charAt(pIdx) == '*') {
+                // Record star position and the position in s
+                starIdx = pIdx;
+                sTmpIdx = sIdx;
+                pIdx++;
+            } else if (starIdx != -1) {
+                // If last pattern pointer was '*', advance string pointer
+                pIdx = starIdx + 1;
+                sTmpIdx++;
+                sIdx = sTmpIdx;
+            } else {
+                // No match and no previous '*'
+                return false;
+            }
+        }
+
+        // Check for remaining characters in pattern
+        while (pIdx < pLen && p.charAt(pIdx) == '*') {
+            pIdx++;
+        }
+
+        return pIdx == pLen;
+    }
+}
