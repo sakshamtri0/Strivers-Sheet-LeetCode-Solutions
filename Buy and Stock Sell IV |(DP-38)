@@ -1,0 +1,37 @@
+class Solution {
+    //k = 2, prices = [3,2,6,5,0,3]
+    public int maxProfit(int k, int[] prices) {
+        int n = prices.length;
+        if (n == 0 || k == 0) return 0;
+
+        // Profits array to store the max profit for each day
+        int[] profits = new int[n + 1];
+
+        // Loop for each transaction
+        for (int transaction = 1; transaction <= k; transaction++) {
+            int maxSellValue = Integer.MIN_VALUE;
+            int bestProfit = 0;
+
+            // Loop through prices in reverse (from last day to first)
+            for (int day = n - 1; day >= 0; day--) {
+
+                // Update maxSellValue to store the best selling price + profit in the future
+                maxSellValue = Math.max(maxSellValue, profits[day] + prices[day]);
+
+                // Calculate profit if we buy on this day and sell at the best future day
+                int profitIfBuyToday = maxSellValue - prices[day];
+
+                // Keep the best profit so far
+                bestProfit = Math.max(bestProfit, profitIfBuyToday);
+
+                // Update the profits array for this day
+                profits[day] = bestProfit;
+            }
+            //1st loop profits array={4  4	3	3	3	0	0}
+            //2nd loop profits array={7	 7	3	3	3	0	0}
+        }
+
+        // Final answer: max profit starting from day 0 with at most k transactions
+        return profits[0];
+    }
+}
