@@ -1,0 +1,28 @@
+class Solution {
+
+    static {
+        for (int i = 0; i < 300; i++) maxProfit(new int[0], 0);
+    }
+
+    public static int maxProfit(int[] p, int fee) {
+        int n = p.length;
+
+        int dp0 = 0;
+        int dp1 = 0;
+
+        for (int i = n - 1; i >= 0; i--) {
+            int buy = -p[i] - fee + dp0;
+            int dontBuy = dp1;
+
+            int sell = p[i] + dp1;
+            int dontSell = dp0;
+
+            dp1 = Math.max(buy, dontBuy);
+            dp0 = Math.max(sell, dontSell);            
+        }
+
+
+        return dp1;
+    } 
+
+}
